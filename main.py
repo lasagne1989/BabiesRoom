@@ -14,7 +14,7 @@ lower_limit = 17.5
 
 
 async def main():
-    plugs, sensors = await connection()
+    plugs = await connection()
     heater_on = True
     try:
         temp = dht_device.temperature
