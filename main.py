@@ -1,3 +1,5 @@
+from sys import path
+path.insert(0, 'home/raspberry')
 import asyncio
 from connection import connection
 from time import time
@@ -9,6 +11,7 @@ dht_device = adafruit_dht.DHT22(D4, use_pulseio=True)
 
 upper_limit = 18.5
 lower_limit = 17.5
+
 
 async def main():
     plugs, sensors = await connection()
@@ -25,6 +28,7 @@ async def main():
             print("off")
     except RuntimeError as error:
         print(error.args[0])
+
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
