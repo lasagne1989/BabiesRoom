@@ -1,31 +1,30 @@
 import asyncio
 from connection import connection
-from temp_check import temp_check
 from time import time
+import adafruit_dht
+from board import D4
 import on_off
+
+dht_device = adafruit_dht.DHT22(D4, use_pulseio=True)
 
 upper_limit = 18.5
 lower_limit = 17.5
 
 async def main():
-    await asyncio.sleep(60)
     plugs, sensors = await connection()
-    heater = "start"
-    start_time = time()
-    while True:
-        temp = await temp_check(sensors)
-        if temp < lower_limit and heater != "on":
+    heater_on = True
+    try:
+        temp = dht_device.temperature
+        if temp < lower_limit and heater_on == False:
             await on_off.turn_on(plugs)
-            heater = "on"
-            print("Heater on")
-            start_time = time()
-        if temp > upper_limit and heater != "off":
+            heater_on = True
+            print("On")
+        if temp > upper_limit and heater_on:
             await on_off.turn_off(plugs)
-            heater = "off"
-            end_time = time() - start_time
-            print(f"Heater off after {end_time/60} mins")
-        await asyncio.sleep(300)
-
+            heater_on = False
+            print("off")
+    except RuntimeError as error:
+        print(error.args[0])
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()

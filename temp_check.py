@@ -1,11 +1,13 @@
-async def temp_check(sensors):
-    print(sensors)
-    dev = sensors[0]
-    await dev.async_update()
-    # Access read cached data
-    temp = dev.last_sampled_temperature
-    print(temp)
-    return temp
+import adafruit_dht
+from board import D4
+from time import sleep
+
+dht_device = adafruit_dht.DHT22(D4, use_pulseio=True)
+
+def temp_check():
+    try:
+        temperature = dht_device.temperature
+
 
 
 if __name__ == '__main__':
