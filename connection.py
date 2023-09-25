@@ -1,7 +1,7 @@
 from meross_iot.http_api import MerossHttpClient
 from meross_iot.manager import MerossManager
 from sys import path
-path.insert(0, 'home/raspberry')
+path.insert(0, '/home/raspberry')
 from data import logon
 
 

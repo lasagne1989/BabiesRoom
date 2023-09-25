@@ -1,5 +1,5 @@
-from sys import path
-path.insert(0, 'home/raspberry')
+#from sys import path
+#path.insert(0, '/home/raspberry')
 import asyncio
 from connection import connection
 from time import time
