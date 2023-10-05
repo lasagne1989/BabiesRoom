@@ -20,15 +20,13 @@ async def main():
         temp = dht_device.temperature
         if heater_on:
             print(temp)
-            heater_on = False
+            main().heater_on = False
         if temp < lower_limit:
             await on_off.turn_on(plugs)
-            heater_on = True
             print("on")
             print(temp)
         if temp > upper_limit:
             await on_off.turn_off(plugs)
-            heater_on = False
             print("off")
             print(temp)
     except RuntimeError as error:
