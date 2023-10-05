@@ -9,8 +9,8 @@ import on_off
 
 dht_device = adafruit_dht.DHT22(D4, use_pulseio=True)
 
-upper_limit = 18.5
-lower_limit = 17.5
+upper_limit = 18.0
+lower_limit = 17.0
 
 
 async def main():
@@ -21,11 +21,13 @@ async def main():
         if temp < lower_limit and heater_on == False:
             await on_off.turn_on(plugs)
             heater_on = True
-            print("On")
+            print("on")
+            print(temp)
         if temp > upper_limit and heater_on:
             await on_off.turn_off(plugs)
             heater_on = False
             print("off")
+            print(temp)
     except RuntimeError as error:
         print(error.args[0])
 
