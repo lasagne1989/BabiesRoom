@@ -2,7 +2,7 @@
 # path.insert(0, '/home/raspberry')
 import asyncio
 from connection import connection
-from time import time
+from time import sleep
 import adafruit_dht
 from board import D4
 import on_off
@@ -17,6 +17,12 @@ async def main(heater_on=False):
     plugs = await connection()
     try:
         temp = dht_device.temperature
+        print(temp)
+        sleep(1)
+        if heater_on:
+            print("Heater On!")
+        if not heater_on:
+            print("Heater Off!)")
         if temp < lower_limit and heater_on is False:
             await on_off.turn_on(plugs)
             print("on")
