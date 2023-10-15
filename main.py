@@ -16,7 +16,7 @@ async def main(heater_on=False):
     plugs = await connection()
     while True:
         try:
-            temp = await dht_device.temperature
+            temp = dht_device.temperature
             print(temp)
             if heater_on:
                 print("Heater On!")
