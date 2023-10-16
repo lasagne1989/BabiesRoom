@@ -17,26 +17,21 @@ async def main(heater_on=False):
     while True:
         try:
             temp = dht_device.temperature
-            print(temp)
             if heater_on:
-                print("Heater On!")
+                print(f"Temperature: {temp} Heater: On")
             if not heater_on:
-                print("Heater Off!)")
+                print(f"Temperature: {temp} Heater: Off")
             if temp < lower_limit and heater_on is False:
                 await on_off.turn_on(plugs)
-                print("on")
-                print(temp)
+                print(f"Temperature dropped below {lower_limit}, heater turned on.")
                 heater_on = not heater_on
-                print(heater_on)
 
             if temp > upper_limit and heater_on is True:
                 await on_off.turn_off(plugs)
-                print("off")
-                print(temp)
+                print(f"Temperature rose above {upper_limit}, heater turned off.")
                 heater_on = not heater_on
-                print(heater_on)
         except RuntimeError as error:
-            print(error.args[0])
+            print("NEEEEEEEEEEEEEEEWO")
         await asyncio.sleep(5)
 
 
