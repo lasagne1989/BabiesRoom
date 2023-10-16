@@ -12,13 +12,14 @@ upper_limit = 18.0
 lower_limit = 17.0
 
 
-async def main(heater_on=False):
+async def main(heater_on=False, cycle = 0):
     plugs = await connection()
     while True:
         try:
             temp = dht_device.temperature
             if heater_on:
                 print(f"Temperature: {temp} Heater: On")
+                cycle += 1
             if not heater_on:
                 print(f"Temperature: {temp} Heater: Off")
             if temp < lower_limit and heater_on is False:
@@ -28,7 +29,8 @@ async def main(heater_on=False):
 
             if temp > upper_limit and heater_on is True:
                 await on_off.turn_off(plugs)
-                print(f"Temperature rose above {upper_limit}, heater turned off.")
+                time_on = round((cycle*5)/60)
+                print(f"Temperature rose above {upper_limit}, heater turned off. Heater was on for {time_on} mins")
                 heater_on = not heater_on
         except RuntimeError as error:
             print("NEEEEEEEEEEEEEEEWO")
