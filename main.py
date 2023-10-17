@@ -7,7 +7,7 @@ import on_off
 dht_device = adafruit_dht.DHT22(D4, use_pulseio=True)
 
 upper_limit = 18.0
-lower_limit = 17.0
+lower_limit = 17.9
 
 
 async def main(heater_on=False, cycle=0):
