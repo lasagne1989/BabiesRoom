@@ -1,5 +1,3 @@
-# from sys import path
-# path.insert(0, '/home/raspberry')
 import asyncio
 from connection import connection
 import adafruit_dht
@@ -12,16 +10,15 @@ upper_limit = 18.0
 lower_limit = 17.0
 
 
-async def main(heater_on=False, cycle = 0):
+async def main(heater_on=False, cycle=0):
     plugs = await connection()
     while True:
         try:
             temp = dht_device.temperature
+            print(f"Temperature: {temp} Heater On: {heater_on}")
             if heater_on:
-                print(f"Temperature: {temp} Heater On: {heater_on}")
                 cycle += 1
-            if not heater_on:
-                print(f"Temperature: {temp} Heater On: {heater_on}")
+
             if temp < lower_limit and heater_on is False:
                 await on_off.turn_on(plugs)
                 print(f"Temperature dropped below {lower_limit}, heater turned on.")
@@ -29,10 +26,11 @@ async def main(heater_on=False, cycle = 0):
 
             if temp > upper_limit and heater_on is True:
                 await on_off.turn_off(plugs)
-                time_on = round((cycle*5)/60)
+                time_on = round((cycle * 5) / 60)
                 print(f"Temperature rose above {upper_limit}, heater turned off. Heater was on for {time_on} mins")
                 heater_on = not heater_on
-        except RuntimeError as error:
+                cycle = 0
+        except RuntimeError:
             print("NEEEEEEEEEEEEEEEWO")
         await asyncio.sleep(5)
 
