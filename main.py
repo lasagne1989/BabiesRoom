@@ -18,10 +18,10 @@ async def main(heater_on=False, cycle = 0):
         try:
             temp = dht_device.temperature
             if heater_on:
-                print(f"Temperature: {temp} Heater: {heater_on}")
+                print(f"Temperature: {temp} Heater On: {heater_on}")
                 cycle += 1
             if not heater_on:
-                print(f"Temperature: {temp} Heater: {heater_on}")
+                print(f"Temperature: {temp} Heater On: {heater_on}")
             if temp < lower_limit and heater_on is False:
                 await on_off.turn_on(plugs)
                 print(f"Temperature dropped below {lower_limit}, heater turned on.")
